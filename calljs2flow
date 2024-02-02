@@ -1,0 +1,23 @@
+function calljs2flow(pcode) {
+
+var code = pcode
+
+const {createFlowTreeBuilder, createSVGRender} = js2flowchart;
+const flowTreeBuilder = createFlowTreeBuilder(),
+    svgRender = createSVGRender();
+var flowTree = flowTreeBuilder.build(code);
+
+var index = flowTree.body.findIndex(element => element.name.toLowerCase() == "try");
+if (index !== -1) {
+  flowTree.body[index].name = "EXCEPTION";
+}
+
+  flowTree.name = "Program: "+ document.querySelector("#INPUTFILEF").files[0].name;
+
+var    shapesTree = svgRender.buildShapesTree(flowTree);
+
+
+const svg = shapesTree.print();
+document.getElementById('svgImage').innerHTML = svg;
+
+}
